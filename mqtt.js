@@ -1,8 +1,10 @@
 
 var mqtt = require('mqtt');
-var DeviceDataModel=require('./model/deviceData');
+var DeviceDataModel = require('./model/deviceData');
 const express = require('express');
 var socket = require('./app');
+const BatchModel = require('./model/batch');
+
 
 console.log("MQTT Loaded");
 client = mqtt.connect('mqtt://138.197.92.157:1883');
@@ -17,7 +19,7 @@ client.on('connect', function () {
 });
 
 
-client.on('message',async function (topic, message) {
+client.on('message', async function (topic, message) {
     var dto = {};
     var splitArr = message.toString().split(':');
 
@@ -30,25 +32,38 @@ client.on('message',async function (topic, message) {
     dto.datetime = moment().format("YYYY-MM-DD, h:mm:ss a");
     dto.date = moment().format("YYYY-MM-DD");
     dto.time = moment().format("HH:mm:ss");
-    
 
-    const DeviceData = new DeviceDataModel({
-        node_id: dto.node_id,
-        top_humidity: dto.top_humidity,
-        bottom_humidity: dto.bottom_humidity ,
-        top_temperature: dto.top_temperature ,
-        bottom_temperature: dto.bottom_temperature,
-        timestamp: dto.timestamp ,
-        datetime: dto.datetime,
-        date: dto.date,
-        time: dto.time 
-    });
+
 
 
     try {
-        const savedDeviceData =await DeviceData.save();
-        console.log("savedDeviceData");
-        require('./app').emit("ANANKETEANODE005", savedDeviceData);
+        var Batches = await BatchModel.findOne().sort({ _id: -1 });
+        if (Batches && Batches.status) {
+            const DeviceData = new DeviceDataModel({
+                node_id: dto.node_id,
+                batch_id: Batches.batch_id,
+                top_humidity: dto.top_humidity,
+                bottom_humidity: dto.bottom_humidity,
+                top_temperature: dto.top_temperature,
+                bottom_temperature: dto.bottom_temperature,
+                timestamp: dto.timestamp,
+                datetime: dto.datetime,
+                date: dto.date,
+                time: dto.time
+            });
+
+
+
+
+            const savedDeviceData = await DeviceData.save();
+            console.log("savedDeviceData");
+            require('./app').emit("ANANKETEANODE", savedDeviceData);
+        }
+
+        console.log(Batches);
+        console.log("DATA RECIEVED");
+
+
         // io.emit('msg', "Connected New");
     } catch (error) {
         console.log(error.message);

@@ -5,6 +5,7 @@ var ObjectId = mongoose.Types.ObjectId;
 const DeviceDataSchema = new mongoose.Schema({
     _id: { type: ObjectIdSchema, default: function () { return new ObjectId() } },
     node_id: String,
+    batch_id:String,
     top_humidity:Number,
     bottom_humidity: Number,
     top_temperature: Number,

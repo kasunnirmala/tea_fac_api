@@ -13,4 +13,14 @@ router.get('/byDateAndID/:nodeID/:date', async (req, res) => {
 
 })
 
+router.get('/byBatchAndID/:nodeID/:batch_id', async (req, res) => {
+    try {
+        var DeviceData = await DeviceDataModel.find({ node_id: req.params.nodeID, batch_id: req.params.batch_id });
+        res.json(DeviceData);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+
+})
+
 module.exports = router;
