@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const DeviceDataModel = require('../model/deviceData');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 router.get('/byDateAndID/:nodeID/:date', async (req, res) => {
     try {

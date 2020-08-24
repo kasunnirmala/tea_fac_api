@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const refGraphModel = require('../model/refGraphData');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 
 router.get('/getAll', async (req, res) => {

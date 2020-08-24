@@ -8,7 +8,7 @@ const BatchModel = require('./model/batch');
 
 console.log("MQTT Loaded");
 client = mqtt.connect('mqtt://138.197.92.157:1883');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 client.on('connect', function () {
     // console.log('mqtt connected ... ');
@@ -28,10 +28,10 @@ client.on('message', async function (topic, message) {
     dto.bottom_humidity = parseFloat(splitArr[2].split("%")[1]);
     dto.top_temperature = parseFloat(splitArr[3].split("*C")[0]);
     dto.bottom_temperature = parseFloat(splitArr[3].split("*C")[1]);
-    dto.timestamp = moment();
-    dto.datetime = moment().format("YYYY-MM-DD, h:mm:ss a");
-    dto.date = moment().format("YYYY-MM-DD");
-    dto.time = moment().format("HH:mm:ss");
+    dto.timestamp = moment().tz("Asia/Colombo");
+    dto.datetime = moment().tz("Asia/Colombo").format("YYYY-MM-DD, h:mm:ss a");
+    dto.date = moment().tz("Asia/Colombo").format("YYYY-MM-DD");
+    dto.time = moment().tz("Asia/Colombo").format("HH:mm:ss");
 
 
 

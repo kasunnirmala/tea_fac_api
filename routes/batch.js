@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BatchModel = require('../model/batch');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 router.get('/getAll', async (req, res) => {
     try {
@@ -41,7 +41,7 @@ router.post('/add', async (req, res) => {
         const Batches = new BatchModel({
             batch_id: req.body.batch_id,
             status: true,
-            start_time: moment().format("YYYY-MM-dd HH:mm:ss")
+            start_time: moment().tz("Asia/Colombo").format("YYYY-MM-dd HH:mm:ss")
         });
 
         const savedBatches = await Batches.save();
@@ -61,7 +61,7 @@ router.post('/update', async (req, res) => {
             {
                 $set: {
                     status: false,
-                    stop_time: moment().format("YYYY-MM-dd HH:mm:ss"),
+                    stop_time: moment().tz("Asia/Colombo").format("YYYY-MM-dd HH:mm:ss"),
                 }
             });
         res.json(updatedBatch);
