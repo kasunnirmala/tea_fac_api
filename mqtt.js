@@ -45,9 +45,9 @@ client.on('message', async function (topic, message) {
 
     try {
         var Batches = await BatchModel.findOne().sort({ _id: -1 });
-        //        if (Batches && Batches.status) {
+               if (Batches && Batches.status) {
         const DeviceData = new DeviceDataModel({
-            node_id: dto.node_id,
+            node_id: Batches.batch_id,
             batch_id: '1',
             top_humidity: dto.top_humidity,
             bottom_humidity: dto.top_humidity,
@@ -67,7 +67,7 @@ client.on('message', async function (topic, message) {
         const savedDeviceData = await DeviceData.save();
         console.log(savedDeviceData);
         require('./app').emit("ANANKETEANODE", savedDeviceData);
-        //      }
+      }
 
         console.log(Batches);
         console.log("DATA RECIEVED");
