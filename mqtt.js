@@ -47,8 +47,8 @@ client.on('message', async function (topic, message) {
         var Batches = await BatchModel.findOne().sort({ _id: -1 });
                if (Batches && Batches.status) {
         const DeviceData = new DeviceDataModel({
-            node_id: Batches.batch_id,
-            batch_id: '1',
+            node_id: dto.node_id,
+            batch_id: Batches.batch_id,
             top_humidity: dto.top_humidity,
             bottom_humidity: dto.top_humidity,
             top_temperature: dto.top_temperature,
