@@ -28,46 +28,46 @@ client.on('message', async function (topic, message) {
     dto.bottom_humidity = parseFloat(splitArr[2].split("%")[1]);
     dto.top_temperature = parseFloat(splitArr[3].split("*C")[0]);
     dto.bottom_temperature = parseFloat(splitArr[3].split("*C")[1]);
-dto.top_humidity= dto.top_humidity==0?dto.bottom_humidity==0?0:dto.bottom_humidity:dto.top_humidity,
-               dto.bottom_humidity= dto.top_humidity==0?dto.bottom_humidity==0?0:dto.bottom_humidity:dto.top_humidity,
-                dto.top_temperature=  dto.top_temperature==0?dto.bottom_temperature==0?0:dto.bottom_temperature:dto.top_temperature,
-                dto.bottom_temperature=  dto.top_temperature==0?dto.bottom_temperature==0?0:dto.bottom_temperature:dto.top_temperature,
+    dto.top_humidity = dto.top_humidity == 0 ? dto.bottom_humidity == 0 ? 0 : dto.bottom_humidity : dto.top_humidity,
+    dto.bottom_humidity = dto.top_humidity == 0 ? dto.bottom_humidity == 0 ? 0 : dto.bottom_humidity : dto.top_humidity,
+    dto.top_temperature = dto.top_temperature == 0 ? dto.bottom_temperature == 0 ? 0 : dto.bottom_temperature : dto.top_temperature,
+    dto.bottom_temperature = dto.top_temperature == 0 ? dto.bottom_temperature == 0 ? 0 : dto.bottom_temperature : dto.top_temperature,
 
 
     dto.timestamp = moment().tz("Asia/Colombo");
     dto.datetime = moment().tz("Asia/Colombo").format("YYYY-MM-DD, h:mm:ss a");
     dto.date = moment().tz("Asia/Colombo").format("YYYY-MM-DD");
     dto.time = moment().tz("Asia/Colombo").format("HH:mm:ss");
-    dto.top_bulbdiff=calculateBulbDiff(dto.top_temperature, dto.top_humidity);
-dto.bottom_bulbdiff=calculateBulbDiff(dto.bottom_temperature, dto.bottom_humidity);
+    dto.top_bulbdiff = calculateBulbDiff(dto.top_temperature, dto.top_humidity);
+    dto.bottom_bulbdiff = calculateBulbDiff(dto.bottom_temperature, dto.bottom_humidity);
 
 
 
     try {
         var Batches = await BatchModel.findOne().sort({ _id: -1 });
-//        if (Batches && Batches.status) {
-            const DeviceData = new DeviceDataModel({
-                node_id: dto.node_id,
-                batch_id: '1',
-                top_humidity: dto.top_humidity,
-                bottom_humidity: dto.top_humidity,
-                top_temperature:  dto.top_temperature,
-                bottom_temperature:  dto.top_temperature,
-                timestamp: dto.timestamp,
-                datetime: dto.datetime,
-                date: dto.date,
-                time: dto.time,
-top_bulbdiff:dto.top_bulbdiff,
-bottom_bulbdiff:dto.bottom_bulbdiff
-            });
+        //        if (Batches && Batches.status) {
+        const DeviceData = new DeviceDataModel({
+            node_id: dto.node_id,
+            batch_id: '1',
+            top_humidity: dto.top_humidity,
+            bottom_humidity: dto.top_humidity,
+            top_temperature: dto.top_temperature,
+            bottom_temperature: dto.top_temperature,
+            timestamp: dto.timestamp,
+            datetime: dto.datetime,
+            date: dto.date,
+            time: dto.time,
+            top_bulbdiff: dto.top_bulbdiff,
+            bottom_bulbdiff: dto.bottom_bulbdiff
+        });
 
 
 
 
-            const savedDeviceData = await DeviceData.save();
-            console.log(savedDeviceData);
-            require('./app').emit("ANANKETEANODE", savedDeviceData);
-  //      }
+        const savedDeviceData = await DeviceData.save();
+        console.log(savedDeviceData);
+        require('./app').emit("ANANKETEANODE", savedDeviceData);
+        //      }
 
         console.log(Batches);
         console.log("DATA RECIEVED");
@@ -75,7 +75,7 @@ bottom_bulbdiff:dto.bottom_bulbdiff
 
         // io.emit('msg', "Connected New");
     } catch (error) {
-       console.log(error.message);
+        console.log(error.message);
 
     };
 
