@@ -24,13 +24,12 @@ router.get('/byBatchAndID/:nodeID/:batch_id', async (req, res) => {
 })
 
 
-router.get('/getWithering/:date', async (req, res) => {
-    var end = moment(moment(req.params.date).format("YYYY-MM-DD").toString() + " 8:00:00").toISOString(true);
-    var start = moment(moment(req.params.date).add(-1, 'day').format("YYYY-MM-DD").toString() + " 18:00:00").toISOString(true);;
+router.get('/getWithering/:date', async (req, res) => {;
+    var end = moment.tz(req.params.date + " 8:00:00 am","Asia/Colombo").valueOf();
+    var start = moment.tz(moment(req.params.date).add(-1, 'day').format("YYYY-MM-DD").toString()+" 6:00:00 pm", "Asia/Colombo").valueOf();
    
-// res.json({end:end,start:start});
     try {
-        var DeviceData = await DeviceDataModel.find({ "created_on": { "$gte": new Date(start), "$lt":new Date(end) } });
+        var DeviceData = await DeviceDataModel.find({ $and: [{ timestamp: { $lte: start } }, { timestamp: { $gte: end } }] });
         res.json(DeviceData);
     } catch (error) {
         res.json({ message: error.message });
