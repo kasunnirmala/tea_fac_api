@@ -15,6 +15,10 @@ client.on('connect', function () {
     client.subscribe('a6140451/g9440826/d0003748/PUB');
     client.subscribe('a6140451/g9440826/d0003749/PUB');
     client.subscribe('a6140451/g9440826/d0003750/PUB');
+     client.subscribe('a6140451/g9440826/d0003751/PUB');
+    client.subscribe('a6140451/g9440826/d0003752/PUB');
+    client.subscribe('a6140451/g9440826/d0003753/PUB');
+
 
 });
 
