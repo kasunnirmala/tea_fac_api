@@ -19,6 +19,18 @@ client.on('connect', function () {
     client.subscribe('a6140451/g9440826/d0003752/PUB');
     client.subscribe('a6140451/g9440826/d0003753/PUB');
 
+ client.subscribe('a6140451/g9440826/d0003754/PUB');
+ client.subscribe('a6140451/g9440826/d0003755/PUB');
+ client.subscribe('a6140451/g9440826/d0003756/PUB');
+ client.subscribe('a6140451/g9440826/d0003757/PUB');
+ client.subscribe('a6140451/g9440826/d0003758/PUB');
+ client.subscribe('a6140451/g9440826/d0003759/PUB');
+ client.subscribe('a6140451/g9440826/d0003760/PUB');
+ client.subscribe('a6140451/g9440826/d0003761/PUB');
+ client.subscribe('a6140451/g9440826/d0003762/PUB');
+ client.subscribe('a6140451/g9440826/d0003763/PUB');
+
+
 
 });
 
