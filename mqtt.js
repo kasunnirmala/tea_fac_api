@@ -73,8 +73,8 @@ client.on('message', async function (topic, message) {
         require('./app').emit("ANANKETEANODE", savedDeviceData);
       }
 
-        console.log(Batches);
-        console.log("DATA RECIEVED");
+        // console.log(Batches);
+        // console.log("DATA RECIEVED");
 
 
         // io.emit('msg', "Connected New");
