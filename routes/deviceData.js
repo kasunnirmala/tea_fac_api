@@ -75,7 +75,9 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
                             'timestamp': {
                                 '$gte': parseInt(start)
                             }
-                        }
+                        },{
+				'node_id': { $ne: "ANANKETEANODE009" } 
+			}
                     ]
                 }
             }, {
@@ -107,7 +109,8 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
                 }
             }
         ]);
-        res.json(DeviceData);
+//        res.json({count:DeviceData[1].data.length,name:DeviceData[1].data[1].node_id});
+res.json(DeviceData);
     } catch (error) {
         res.json({ message: error.message });
     }
