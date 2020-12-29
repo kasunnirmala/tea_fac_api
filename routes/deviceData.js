@@ -49,8 +49,13 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
 
     var date = req.params.date;
     // var date ="2020-12-15";
-    var end = moment(date + " 8:00:00 am").valueOf();
-    var start = moment(moment(date).add(-1, 'day').format("YYYY-MM-DD").toString() + " 6:00:00 pm").valueOf();
+    // var end = moment(date + " 8:00:00 am").valueOf();
+    // var start = moment(moment(date).add(-1, 'day').format("YYYY-MM-DD").toString() + " 6:00:00 pm").valueOf();
+
+
+    var end = moment().valueOf();
+    var start = moment().add(-1, 'hour').valueOf();
+
 
     // res.json({end:end,start:start});
 
@@ -73,70 +78,30 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
                         }
                     ]
                 }
-            },
-
-            {
-                '$project': {
-                    'h': {
-                        '$hour': '$createdAt'
-                    },
-                    '_id': '$_id',
-                    'node_id': '$node_id',
-                    'batch_id': '$batch_id',
-                    'top_humidity': '$top_humidity',
-                    'bottom_humidity': '$bottom_humidity',
-                    'top_temperature': '$top_temperature',
-                    'bottom_temperature': '$bottom_temperature',
-                    'timestamp': '$timestamp',
-                    'datetime': '$datetime',
-                    'date': '$date',
-                    'time': '$time',
-                    'top_bulbdiff': '$top_bulbdiff',
-                    'bottom_bulbdiff': '$bottom_bulbdiff',
-                    'createdAt': '$createdAt',
-                    'updatedAt': '$updatedAt'
-                }
             }, {
                 '$group': {
-                    '_id': {
-                        'hour': '$h'
-                    },
-                    'first': {
-                        '$first': '$$ROOT'
-                    }
-                }
-            }, {
-                '$sort': {
-                    'first.h': 1
-                }
-            }, {
-                '$group': {
-                    '_id': '$first.node_id',
+                    '_id': '$node_id',
                     'data': {
                         '$push': {
-                            'h': '$first.h',
-                            '_id': '$first._id',
-                            'node_id': '$first.node_id',
-                            'batch_id': '$first.batch_id',
-                            'top_humidity': '$first.top_humidity',
-                            'bottom_humidity': '$first.bottom_humidity',
-                            'top_temperature': '$first.top_temperature',
-                            'bottom_temperature': '$first.bottom_temperature',
-                            'timestamp': '$first.timestamp',
-                            'datetime': '$first.datetime',
-                            'date': '$first.date',
-                            'time': '$first.time',
-                            'top_bulbdiff': '$first.top_bulbdiff',
-                            'bottom_bulbdiff': '$first.bottom_bulbdiff',
-                            'createdAt': '$first.createdAt',
-                            'updatedAt': '$first.updatedAt'
+                            '_id': '$_id',
+                            'node_id': '$node_id',
+                            'batch_id': '$batch_id',
+                            'top_humidity': '$top_humidity',
+                            'bottom_humidity': '$bottom_humidity',
+                            'top_temperature': '$top_temperature',
+                            'bottom_temperature': '$bottom_temperature',
+                            'timestamp': '$timestamp',
+                            'datetime': '$datetime',
+                            'date': '$date',
+                            'time': '$time',
+                            'top_bulbdiff': '$top_bulbdiff',
+                            'bottom_bulbdiff': '$bottom_bulbdiff',
+                            'createdAt': '$createdAt',
+                            'updatedAt': '$updatedAt'
                         }
                     }
                 }
-            },
-            
-            
-            {
+            }, {
                 '$sort': {
                     '_id': 1
                 }
