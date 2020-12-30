@@ -206,15 +206,19 @@ router.get('/getAllAverageDifference/:date', async (req, res) => {
 })
 
 
-router.get('/getLastSensorRaw', async (req, res) => {
-
+router.get('/getLastSensorRaw/:date', async (req, res) => {
+    var date = req.params.date;
     try {
         var DeviceData = await DeviceDataModel.aggregate([
             {
+                '$match': {
+                    'date': '2020-12-15'
+                }
+            }, {
                 '$sort': {
                     'timestamp': 1
                 }
-            }, {
+            },{
                 '$group': {
                     '_id': '$node_id',
                     'data': {
@@ -222,7 +226,7 @@ router.get('/getLastSensorRaw', async (req, res) => {
                     }
                 }
             }
-        ]);
+        ],{allowDiskUse:true});
         res.json(DeviceData);
     } catch (error) {
         res.json({ message: error.message });
