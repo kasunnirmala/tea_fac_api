@@ -133,11 +133,10 @@ router.get('/getAllAverageDifference/:date', async (req, res) => {
             }, {
                 '$addFields': {
                     'hour': {
-                        '$toInt': {
-                            '$substr': [
-                                '$time', 0, 2
-                            ]
-                        }
+                        '$substr': [
+                            '$time', 0, 2
+                        ]
+
                     }
                 }
             }, {
