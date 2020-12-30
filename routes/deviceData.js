@@ -212,7 +212,8 @@ router.get('/getLastSensorRaw/:date', async (req, res) => {
         var DeviceData = await DeviceDataModel.aggregate([
             {
                 '$match': {
-                    'date': date
+                    'date': date,
+                    "node_id": { $ne: "ANANKETEANODE012" } 
                 }
             }, {
                 '$sort': {
