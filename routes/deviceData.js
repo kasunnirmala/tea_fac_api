@@ -126,63 +126,78 @@ router.get('/getAllAverageDifference/:date', async (req, res) => {
     // var date ="2020-12-15";
     try {
         var DeviceData = await DeviceDataModel.aggregate([
-            {
-                '$match': {
-                    'date': date
-                }
-            }, {
-                '$addFields': {
-                    'hour': {
-                        '$substr': [
-                            '$time', 0, 2
-                        ]
+            [
+                {
+                    '$match': {
+                        'date': '2020-12-15'
+                    }
+                }, {
+                    '$addFields': {
+                        'hour': {
 
-                    }
-                }
-            }, {
-                '$group': {
-                    '_id': {
-                        'node_id': '$node_id',
-                        'hour': '$hour'
-                    },
-                    'node_id': {
-                        '$first': '$node_id'
-                    },
-                    'top_humidity': {
-                        '$avg': '$top_humidity'
-                    },
-                    'bottom_humidity': {
-                        '$avg': '$bottom_humidity'
-                    },
-                    'top_temperature': {
-                        '$avg': '$top_temperature'
-                    },
-                    'bottom_temperature': {
-                        '$avg': '$bottom_temperature'
-                    }
-                }
-            }, {
-                '$sort': {
-                    '_id.hour': 1
-                }
-            }, {
-                '$group': {
-                    '_id': '$node_id',
-                    'data': {
-                        '$push': {
-                            'hour': '$_id.hour',
-                            'top_humidity': '$top_humidity',
-                            'bottom_humidity': '$bottom_humidity',
-                            'top_temperature': '$top_temperature',
-                            'bottom_temperature': '$bottom_temperature'
+                            '$substr': [
+                                '$time', 0, 2
+                            ]
+
                         }
                     }
+                }, {
+                    '$group': {
+                        '_id': {
+                            'node_id': '$node_id',
+                            'hour': '$hour'
+                        },
+                        'node_id': {
+                            '$first': '$node_id'
+                        },
+                        'trough_id': {
+                            '$first': '$trough_id'
+                        },
+                        'top_humidity': {
+                            '$avg': '$top_humidity'
+                        },
+                        'bottom_humidity': {
+                            '$avg': '$bottom_humidity'
+                        },
+                        'top_temperature': {
+                            '$avg': '$top_temperature'
+                        },
+                        'bottom_temperature': {
+                            '$avg': '$bottom_temperature'
+                        },
+                        'top_bulbdiff': {
+                            '$avg': '$top_bulbdiff'
+                        },
+                        'bottom_bulbdiff': {
+                            '$avg': '$bottom_bulbdiff'
+                        }
+                    }
+                }, {
+                    '$sort': {
+                        '_id.hour': 1
+                    }
+                }, {
+                    '$group': {
+                        '_id': '$node_id',
+                        'data': {
+                            '$push': {
+                                'hour': '$_id.hour',
+                                'top_humidity': '$top_humidity',
+                                'trough_id': '$trough_id',
+                                'bottom_humidity': '$bottom_humidity',
+                                'top_temperature': '$top_temperature',
+                                'bottom_temperature': '$bottom_temperature',
+                                'top_bulbdiff': '$top_bulbdiff',
+                                'bottom_bulbdiff': '$bottom_bulbdiff'
+                            }
+                        }
+                    }
+                }, {
+                    '$sort': {
+                        '_id': 1
+                    }
                 }
-            }, {
-                '$sort': {
-                    '_id': 1
-                }
-            }
+            ]
         ]);
         res.json(DeviceData);
     } catch (error) {
