@@ -72,6 +72,7 @@ client.on('message', async function (topic, message) {
     var splitArr = message.toString().split(':');
 
     dto.node_id = splitArr[0].substring(1, splitArr[0].length);
+dto.trough_id=sensorMap.get(splitArr[0].substring(1, splitArr[0].length)),
     dto.top_humidity = parseFloat(splitArr[2].split("%")[0]);
     dto.bottom_humidity = parseFloat(splitArr[2].split("%")[1]);
     dto.top_temperature = parseFloat(splitArr[3].split("*C")[0]);
@@ -88,15 +89,15 @@ client.on('message', async function (topic, message) {
     dto.time = moment().tz("Asia/Colombo").format("HH:mm:ss");
     dto.top_bulbdiff = calculateBulbDiff(dto.top_temperature, dto.top_humidity);
     dto.bottom_bulbdiff = calculateBulbDiff(dto.bottom_temperature, dto.bottom_humidity);
-
-
-
+//
+//console.log((dto.trough_id));
+//console.log(sensorMap);
     try {
         var Batches = await BatchModel.findOne().sort({ _id: -1 });
         if (Batches && Batches.status) {
             const DeviceData = new DeviceDataModel({
                 node_id: dto.node_id,
-                trough: sensorMap.get(dto.node_id),
+                trough_id: dto.trough_id,
                 batch_id: Batches.batch_id,
                 top_humidity: dto.top_humidity,
                 bottom_humidity: dto.top_humidity,

@@ -16,7 +16,7 @@ bottom_bulbdiff:Number,
     datetime: String,
     date: String,
     time:String,
-    trough_id:number
+    trough_id:Number
 }, {
     timestamps: true
 });
