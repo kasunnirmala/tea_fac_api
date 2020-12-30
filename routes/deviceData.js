@@ -218,15 +218,29 @@ router.get('/getLastSensorRaw/:date', async (req, res) => {
                 '$sort': {
                     'timestamp': 1
                 }
-            },{
+            }, {
                 '$group': {
                     '_id': '$node_id',
+                    'trough_id': {
+                        '$first': '$trough_id'
+                    },
                     'data': {
                         '$last': '$$ROOT'
                     }
                 }
+            }, {
+                '$group': {
+                    '_id': '$trough_id',
+                    'data': {
+                        '$push': '$data'
+                    }
+                }
+            }, {
+                '$sort': {
+                    '_id': 1
+                }
             }
-        ],{allowDiskUse:true});
+        ]);
         res.json(DeviceData);
     } catch (error) {
         res.json({ message: error.message });
