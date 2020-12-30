@@ -75,9 +75,9 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
                             'timestamp': {
                                 '$gte': parseInt(start)
                             }
-                        },{
-				'node_id': { $ne: "ANANKETEANODE009" } 
-			}
+                        }, {
+                            'node_id': { $ne: "ANANKETEANODE009" }
+                        }
                     ]
                 }
             }, {
@@ -109,14 +109,88 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
                 }
             }
         ]);
-//        res.json({count:DeviceData[1].data.length,name:DeviceData[1].data[1].node_id});
-res.json(DeviceData);
+        //        res.json({count:DeviceData[1].data.length,name:DeviceData[1].data[1].node_id});
+        res.json(DeviceData);
     } catch (error) {
         res.json({ message: error.message });
     }
 
 })
 
+
+
+
+router.get('/getAllAverageDifference/:date', async (req, res) => {
+
+    var date = req.params.date;
+    // var date ="2020-12-15";
+    try {
+        var DeviceData = await DeviceDataModel.aggregate([
+            {
+                '$match': {
+                    'date': date
+                }
+            }, {
+                '$addFields': {
+                    'hour': {
+                        '$toInt': {
+                            '$substr': [
+                                '$time', 0, 2
+                            ]
+                        }
+                    }
+                }
+            }, {
+                '$group': {
+                    '_id': {
+                        'node_id': '$node_id',
+                        'hour': '$hour'
+                    },
+                    'node_id': {
+                        '$first': '$node_id'
+                    },
+                    'top_humidity': {
+                        '$avg': '$top_humidity'
+                    },
+                    'bottom_humidity': {
+                        '$avg': '$bottom_humidity'
+                    },
+                    'top_temperature': {
+                        '$avg': '$top_temperature'
+                    },
+                    'bottom_temperature': {
+                        '$avg': '$bottom_temperature'
+                    }
+                }
+            }, {
+                '$sort': {
+                    '_id.hour': 1
+                }
+            }, {
+                '$group': {
+                    '_id': '$node_id',
+                    'data': {
+                        '$push': {
+                            'hour': '$_id.hour',
+                            'top_humidity': '$top_humidity',
+                            'bottom_humidity': '$bottom_humidity',
+                            'top_temperature': '$top_temperature',
+                            'bottom_temperature': '$bottom_temperature'
+                        }
+                    }
+                }
+            }, {
+                '$sort': {
+                    '_id': 1
+                }
+            }
+        ]);
+        res.json(DeviceData);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+
+})
 
 
 
