@@ -39,29 +39,29 @@ var moment = require('moment-timezone');
 
 client.on('connect', function () {
     // console.log('mqtt connected ... ');
-    client.subscribe('a6140451/g9440826/d0003748/PUB');
-    client.subscribe('a6140451/g9440826/d0003749/PUB');
-    client.subscribe('a6140451/g9440826/d0003750/PUB');
-    client.subscribe('a6140451/g9440826/d0003751/PUB');
-    client.subscribe('a6140451/g9440826/d0003752/PUB');
-    client.subscribe('a6140451/g9440826/d0003753/PUB');
+    client.subscribe('a6140451/g9440826/#');
+    // client.subscribe('a6140451/g9440826/d0003749/PUB');
+    // client.subscribe('a6140451/g9440826/d0003750/PUB');
+    // client.subscribe('a6140451/g9440826/d0003751/PUB');
+    // client.subscribe('a6140451/g9440826/d0003752/PUB');
+    // client.subscribe('a6140451/g9440826/d0003753/PUB');
 
-    client.subscribe('a6140451/g9440826/d0003754/PUB');
-    client.subscribe('a6140451/g9440826/d0003755/PUB');
-    client.subscribe('a6140451/g9440826/d0003756/PUB');
-    client.subscribe('a6140451/g9440826/d0003757/PUB');
-    client.subscribe('a6140451/g9440826/d0003758/PUB');
-    client.subscribe('a6140451/g9440826/d0003759/PUB');
-    client.subscribe('a6140451/g9440826/d0003760/PUB');
-    client.subscribe('a6140451/g9440826/d0003761/PUB');
-    client.subscribe('a6140451/g9440826/d0003762/PUB');
-    client.subscribe('a6140451/g9440826/d0003763/PUB');
+    // client.subscribe('a6140451/g9440826/d0003754/PUB');
+    // client.subscribe('a6140451/g9440826/d0003755/PUB');
+    // client.subscribe('a6140451/g9440826/d0003756/PUB');
+    // client.subscribe('a6140451/g9440826/d0003757/PUB');
+    // client.subscribe('a6140451/g9440826/d0003758/PUB');
+    // client.subscribe('a6140451/g9440826/d0003759/PUB');
+    // client.subscribe('a6140451/g9440826/d0003760/PUB');
+    // client.subscribe('a6140451/g9440826/d0003761/PUB');
+    // client.subscribe('a6140451/g9440826/d0003762/PUB');
+    // client.subscribe('a6140451/g9440826/d0003763/PUB');
 
 
-    client.subscribe('a6140451/g9440826/d0003764/PUB');
-    client.subscribe('a6140451/g9440826/d0003765/PUB');
-    client.subscribe('a6140451/g9440826/d0003766/PUB');
-    client.subscribe('a6140451/g9440826/d0003767/PUB');
+    // client.subscribe('a6140451/g9440826/d0003764/PUB');
+    // client.subscribe('a6140451/g9440826/d0003765/PUB');
+    // client.subscribe('a6140451/g9440826/d0003766/PUB');
+    // client.subscribe('a6140451/g9440826/d0003767/PUB');
 
 
 });

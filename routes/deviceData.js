@@ -45,6 +45,75 @@ router.get('/getWithering/:nodeID/:date', async (req, res) => {
 
 
 
+router.get('/getWitheringWithTroughID/:date/:trough', async (req, res) => {
+    // 1605282411209
+    var date = req.params.date;
+    var trough=req.params.trough;
+    // var date ="2020-11-15";
+
+//     var m = moment(date).utcOffset(0);
+// m.set({hour:0,minute:0,second:0,millisecond:0})
+// m.toISOString()
+// m.format()
+
+var dateMoment = moment(date).tz("Asia/Colombo");
+dateMoment.set({hour:8,minute:0,second:0,millisecond:0})
+var startDateMoment= moment(date).subtract(1, 'days').tz("Asia/Colombo");
+startDateMoment.set({hour:18,minute:0,second:0,millisecond:0})
+var end=dateMoment.unix()*1000;
+var start=startDateMoment.unix()*1000;
+
+    try {
+       
+        var DeviceData = await DeviceDataModel.aggregate([{
+                    '$match': {
+                    '$and': [
+                        {
+                            'timestamp': {
+                                '$lte': parseInt(end)
+                            }
+                        }, {
+                            'timestamp': {
+                                '$gte': parseInt(start)
+                            }
+                        }, {
+                            'trough_id': parseInt(trough)
+                        }
+                    ]
+                }
+        },
+            {
+                '$group': {
+                  '_id': '$node_id', 
+                  'trough_id': {
+                    '$first': '$trough_id'
+                  }, 
+                  'data': {
+                    '$push': '$$ROOT'
+                  }
+                }
+              }, {
+                '$sort': {
+                  '_id': 1
+                }
+              }
+    
+    ]);
+      
+        // console.log(DeviceData);
+        //        res.json({count:DeviceData[1].data.length,name:DeviceData[1].data[1].node_id});
+        res.json(DeviceData);
+    } catch (error) {
+
+        res.json({ message: error.message });
+    }
+
+})
+
+
+
+
+
 router.get('/getWitheringAllArray/:date', async (req, res) => {
 
     var date = req.params.date;
