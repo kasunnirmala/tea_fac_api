@@ -188,6 +188,63 @@ router.get('/getWitheringAllArray/:date', async (req, res) => {
 
 
 
+router.get('/getWitheringAllArrayGroupByTrough', async (req, res) => {
+
+
+    var end = moment().valueOf();
+    var start = moment().add(-1, 'hour').valueOf();
+
+
+    try {
+       var DeviceData = await DeviceDataModel.aggregate([
+            {
+                '$match': {
+                    '$and': [
+                        {
+                            'timestamp': {
+                                '$lte': parseInt(end)
+                            }
+                        }, {
+                            'timestamp': {
+                                '$gte': parseInt(start)
+                            }
+                        }, 
+                    ]
+                }
+            }, 
+            
+            {
+                '$group': {
+                  '_id': '$node_id', 
+                  'trough_id': {
+                    '$first': '$trough_id'
+                  }, 
+                  'data': {
+                    '$push': '$$ROOT'
+                  }
+                }
+              }, {
+                '$group': {
+                  '_id': '$trough_id', 
+                  'data': {
+                    '$push': '$$ROOT'
+                  }
+                }
+              }, {
+                '$sort': {
+                  '_id': 1
+                }
+              }
+        ]);
+        //        res.json({count:DeviceData[1].data.length,name:DeviceData[1].data[1].node_id});
+        res.json(DeviceData);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+
+})
+
+
 
 router.get('/getAllAverageDifference/:date', async (req, res) => {
 
