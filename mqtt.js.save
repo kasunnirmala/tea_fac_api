@@ -31,28 +31,6 @@ sensorMap.set("ANANKETEANODE027", 1);
 sensorMap.set("ANANKETEANODE028", 1);
 
 
-sensorMap.set("483FDA751F3F", 14);
-sensorMap.set("40F520241725", 4);
-sensorMap.set("40F5200500D3", 2);
-sensorMap.set("40F52003CFF9", 7);
-sensorMap.set("40F520240F90", 7);
-sensorMap.set("40F5201620A7", 3);
-sensorMap.set("483FDA70F186",14);
-sensorMap.set("483FDA05D573", 2);
-sensorMap.set("483FDA751DCD", 7);
-sensorMap.set("40F5201624C6", 4);
-
-sensorMap.set("10521CEA8989", 3);
-sensorMap.set("40F52022D8E9", 3);
-sensorMap.set("40F520048F64", 7);
-sensorMap.set("483FDA05833D", 7);
-
-sensorMap.set("40F52023BD07", 3);
-sensorMap.set("40F520237E3F", 3);
-sensorMap.set("483FDA05B82E",14);
-sensorMap.set("40F52022D8E9", 3);
-sensorMap.set("483FDA0577A4",14);
-sensorMap.set("483FDA0589F2",14);
 
 
 console.log("MQTT Loaded");
@@ -61,9 +39,8 @@ var moment = require('moment-timezone');
 
 client.on('connect', function () {
     // console.log('mqtt connected ... ');
-    client.subscribe('a6140451/g9440826/#');
- client.subscribe('teafactory/pothotuwa/sensors/#'); 
-   // client.subscribe('a6140451/g9440826/d0003749/PUB');
+    client.subscribe('a6140451/g9440826/#')ANANKETEANODE013;
+    // client.subscribe('a6140451/g9440826/d0003749/PUB');
     // client.subscribe('a6140451/g9440826/d0003750/PUB');
     // client.subscribe('a6140451/g9440826/d0003751/PUB');
     // client.subscribe('a6140451/g9440826/d0003752/PUB');
