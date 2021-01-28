@@ -376,6 +376,46 @@ router.get('/getLastSensorRaw/:date', async (req, res) => {
 })
 
 
+router.get('/getCurrentDiffAvg', async (req, res) => {
+
+    try {
+        var DeviceData = await DeviceDataModel.aggregate([
+            {
+                '$group': {
+                  '_id': '$node_id', 
+                  'trough_id': {
+                    '$first': '$trough_id'
+                  }, 
+                  'timestamp': {
+                    '$first': '$timestamp'
+                  }, 
+                  'bulbdiff': {
+                    '$first': '$top_bulbdiff'
+                  }
+                }
+              }, {
+                '$group': {
+                  '_id': '$trough_id', 
+                  'data': {
+                    '$push': '$$ROOT'
+                  }, 
+                  'avg_bulb_diff': {
+                    '$avg': '$bulbdiff'
+                  }
+                }
+              }, {
+                '$sort': {
+                  '_id': 1
+                }
+              }
+        ]);
+        res.json(DeviceData);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+
+})
+
 
 
 module.exports = router;
